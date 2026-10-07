@@ -215,3 +215,5 @@ const PRACTICE_EXPANSIONS={
 Object.entries(PRACTICE_EXPANSIONS).forEach(([lesson,groups])=>groups.forEach((line,g)=>{const split=line.indexOf('|'),hint=line.slice(0,split);line.slice(split+1).split(';').forEach((item,i)=>{const at=item.lastIndexOf('=');BANK.push({id:'v3-'+lesson+'-'+g+'-'+i,lesson,type:'input',prompt:hint+'：\n'+item.slice(0,at),answer:item.slice(at+1),explain:hint+'。正确形式：'+item.slice(at+1).replaceAll('/',' / ')+'。'});});}));
 const PRACTICE_SETS={};
 LESSONS.forEach(l=>{const curated=BANK.filter(q=>q.lesson===l.id&&(q.id.startsWith('v3-')||l.qs.some(x=>x.id===q.id))),drills=BANK.filter(q=>q.lesson===l.id&&!curated.includes(q));const pool=[...curated,...drills];const size=Math.min(8,Math.floor(pool.length/4));if(size<5)throw Error('Insufficient questions: '+l.id);PRACTICE_SETS[l.id]=Array.from({length:4},(_,set)=>Array.from({length:size},(_,i)=>pool[i*4+set]));});
+
+BANK.forEach(q=>{if(q.id.startsWith("v3-nouns-1-")||q.id.startsWith("v3-orthography-3-"))q.caseSensitive=true});
